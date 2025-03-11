@@ -1,3 +1,10 @@
+<!-- {% extends 'equipment/base.html' %}
+ {%load static %}  ->when static file (CSS, JavaScript, images, etc are added)
+
+
+{% block pagecontent %}
+-->
+
 {% block body %}
 <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
     <div class="shadow p-4 bg-body rounded text-black w-100" style="max-width: 400px;">
@@ -6,20 +13,20 @@
                     
             {% csrf_token %} 
             <div class="">
-                <label for="email" class="">Email</label>
+                <label for="email" class="">Username</label>
                 <input required type="email" class="" id="email" name="email" autocomplete="email">
             </div>
             <div class="">
                 <label for="password" class="">Password</label>
                 <input required type="password" class="form-control" id="password" name="password" autocomplete="current-password">
-            </div>
-
-            <div class="">
-                <input type="submit" class="" value="Login">
-                </div>
+            </div>       
     
         </form> 
-            <p> Don't have an account?<a href = '/signup/'> Sign up </a> </p>  
+         <!-- <p> Forgot your password? Don't fret <a href = "{% url "password_reset" %}"> Reset it </a> </p> -->
+         <div class="">
+            <input type="submit" class="" value="Login">
+            </div>
+            <p> Don't have an account?<a href = '/register'> Sign up </a> </p>  
 
     </div>
 </div>

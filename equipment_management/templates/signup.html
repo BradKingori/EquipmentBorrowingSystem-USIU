@@ -1,8 +1,16 @@
+<!-- {% extends 'equipment/base.html' %}
+ {%load static %}  ->when static file (CSS, JavaScript, images, etc are added)
+
+
+{% block pagecontent %}
+-->
+
+
 {% block body %}
 <div class="d-flex justify-content-center align-items-center min-vh-100 bg-white">
     <div class="shadow p-4 bg-body rounded text-black w-100" style="max-width: 400px;">
         <h1 class="">Sign Up</h1>
-        <form  method = 'POST' class = "" action="/signup/">
+        <form  method = 'POST' class = "" action="/register/">
                     
             {% csrf_token %} 
             <div class="">
@@ -16,17 +24,17 @@
             </div>
 
             <div class="">
-                <label for="userId" class="form-label">ID</label>
-                <input required type="number" class="form-control" id="userId" name="userId" autocomplete="off">
+                <label for="id" class="form-label">ID</label>
+                <input required type="number" class="form-control" id="id" name="id" autocomplete="off">
             </div> 
             
             <div class="">
                 <label for="role" class="form-label">Role</label>
-                <select class="form-select" name="role" autocomplete="off">
-                    <option value="student" name="student" selected>Student</option>
-                    <option value="hod" name="hod">Head of Department</option>
-                    <option value="lecturer"  name="lecturer">Lecturer</option>
-                    <option value="technician" name="technician">Lab technician</option>
+                <select id="role" class="form-select" value="role"  id="role" name="role" autocomplete="off">
+                    <option  id="student" name="student" selected>Student</option>
+                    <option id="hob" name="hob">Head of Department</option>
+                    <option id="lecturer" name="lecturer">Lecturer</option>
+                    <option id="technician" name="technician">Lab technician</option>
                 </select>
                 
             </div>
@@ -36,14 +44,11 @@
                 <input required type="password" class="form-control" id="password" name="password" autocomplete="new-password">
             </div>
             <div class="">
-                <label for="password2" class="form-label">Confirm Password</label>
-                <input required type="password" class="form-control" id="pass2" name="pass2" autocomplete="current-password">
+                <label for="pass2" class="form-label">Confirm Password</label>
+                <input required type="pass2" class="form-control" id="pass2" name="pass2" autocomplete="current-password">
             </div>    
             
-            <div class="col-12 text-center my-5">
-                <input type="submit" class="btn btn-outline-primary btn-lg1" value="Sign up!">
-                                           
-            </div>
+   
         </form> 
         <div class="text-center mt-4">
             <label class="form-label fs-5">Already have an account?</label>

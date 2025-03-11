@@ -3,7 +3,7 @@ from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import signup as signup_view  # Rename correctly
+from .views import signup as signup_view  # Rename correctly -> what is this??
 
 
 urlpatterns = [
@@ -15,6 +15,9 @@ urlpatterns = [
  #   path('login/', auth_views.LoginView.as_view(template_name='equipment/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('dashboard/', views.redirect_dashboard, name='redirect_dashboard'),
+    path('student-dashboard/', views.student_dashboard, name='student-dashboard'),
+    path('technician-dashboard/', views.technician_dashboard, name='technician-dashboard'),
+    path('lecturer-dashboard/', views.lecturer_dashboard, name='lecturer-dashboard'),
     #path('signup/', signup_view, name='signup'),
     #path('login/', login_view, name='login'),
     path('signup/', signup_view, name='signup'),

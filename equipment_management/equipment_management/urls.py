@@ -17,9 +17,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
+import equipment.views as ev
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("equipment/",include("equipment.urls")),
-        path('', lambda request: redirect('signup')),  # Redirect `/` to signup
+    path('', ev.signup, name='signup'),
+    path("student/",ev.student_dashboard, name="student_dashboard" ),
+    path("lecturer/",ev.lecturer_dashboard, name= "lecturer_dashboard"),
+    path("hod/",ev.hod_dashboard, name= "hod_dashboard"),
+    path("technician/", ev.technician_dashboard, name="technician_dashboard"),
+    path('dashboard/', ev.redirect_dashboard, name='redirect_dashboard'),
+    path('signup/', ev.signup, name='signup'),
+    path('login/', ev.login_view, name='login'),
+    #path('accounts/', include("django.contrib.auth.urls")),
+    path('logout/', ev.signout, name='signout'), 
+    #path('activate/<uidb64>/<token>', ev.activate, name='activate'),
 ]
+
+#what is a lambda request??

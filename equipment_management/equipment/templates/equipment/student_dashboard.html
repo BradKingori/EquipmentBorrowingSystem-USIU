@@ -1,0 +1,10 @@
+<form method="post">
+    {% csrf_token %}
+    <select name="equipment_id">
+        {% for equipment in equipment_list %}
+            <option value="{{ equipment.id }}">{{ equipment.name }} ({{ equipment.brand }})</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Request Equipment</button>
+
+</form>

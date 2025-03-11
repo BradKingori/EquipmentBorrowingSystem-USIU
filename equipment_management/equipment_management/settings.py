@@ -11,10 +11,23 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-
+from .env import *
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+EMAIL_BACKEND=EMAIL_BACKEND
+EMAIL_USE_TLS = EMAIL_USE_TLS
+EMAIL_HOST = EMAIL_HOST
+EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+EMAIL_PORT = EMAIL_PORT
+
+#NOT SURE IT WORKS IN PRODUCTION
+import django
+from django.utils.encoding import force_str
+django.utils.encoding.force_text = force_str
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -39,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'equipment'
+   # 'userAccount.apps.UseraccountConfig',
 ]
 
 MIDDLEWARE = [
@@ -53,16 +67,19 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'equipment_management.urls'
 
-AUTH_USER_MODEL = 'equipment.CustomUser'
+AUTH_USER_MODEL = 'equipment.CustomUser'  
 
 LOGIN_REDIRECT_URL = 'redirect_dashboard'
 LOGOUT_REDIRECT_URL = 'login'
+
+#LOGIN_REDIRECT_URL = "/"
+#LOGOUT_REDIRECT_URL = "/"
 
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'equipment/templates', 'equipment/templates/equipment')], #'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

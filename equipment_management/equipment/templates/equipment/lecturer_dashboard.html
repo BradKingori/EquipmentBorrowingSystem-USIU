@@ -1,0 +1,9 @@
+<h2>Pending Lecturer Approvals</h2>
+{% for request in requests %}
+    <p>{{ request.student.user.username }} requested {{ request.equipment.name }}</p>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="request_id" value="{{ request.id }}">
+        <button type="submit">Approve</button>
+    </form>
+{% endfor %}
