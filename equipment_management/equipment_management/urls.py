@@ -32,6 +32,9 @@ urlpatterns = [
     path('login/', ev.login_view, name='login'),
     #path('accounts/', include("django.contrib.auth.urls")),
     path('logout/', ev.signout, name='signout'), 
+    path('approve_request/<int:request_id>/', ev.approve_request, name="approve_request"),
+
+    
     #path('activate/<uidb64>/<token>', ev.activate, name='activate'),
 ]
 

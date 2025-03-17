@@ -11,17 +11,13 @@ urlpatterns = [
     path("lecturer/",views.lecturer_dashboard, name= "lecturer_dashboard"),
     path("hod/",views.hod_dashboard, name= "hod_dashboard"),
     path("technician/", views.technician_dashboard, name="technician_dashboard"),
- #   path('signup/', views.signup, name='signup'),
- #   path('login/', auth_views.LoginView.as_view(template_name='equipment/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('dashboard/', views.redirect_dashboard, name='redirect_dashboard'),
     path('student-dashboard/', views.student_dashboard, name='student-dashboard'),
     path('technician-dashboard/', views.technician_dashboard, name='technician-dashboard'),
     path('lecturer-dashboard/', views.lecturer_dashboard, name='lecturer-dashboard'),
-    #path('signup/', signup_view, name='signup'),
-    #path('login/', login_view, name='login'),
     path('signup/', signup_view, name='signup'),
-  #  path('login/', login_view, name='login'),
     path('login/', views.login_view, name='login'),
+    path('approve_request', views.approve_request, name="approve_request")
 
 ]

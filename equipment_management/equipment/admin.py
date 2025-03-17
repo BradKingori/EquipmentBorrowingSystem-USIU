@@ -24,4 +24,16 @@ for model in models:
     except admin.sites.AlreadyRegistered:
         pass
 
+"""
+#Restricting user permissions in Admin interface
+from .models import Equipment
 
+class EquipmentAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return True
+    def has_delete_permission(self, request, obj=None):
+        return True
+    def has_change_permission(self, request, obj=None):
+        return True
+
+"""

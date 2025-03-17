@@ -69,7 +69,7 @@ ROOT_URLCONF = 'equipment_management.urls'
 
 AUTH_USER_MODEL = 'equipment.CustomUser'  
 
-LOGIN_REDIRECT_URL = 'redirect_dashboard'
+LOGIN_REDIRECT_URL = '/redirect_dashboard/'
 LOGOUT_REDIRECT_URL = 'login'
 
 #LOGIN_REDIRECT_URL = "/"
