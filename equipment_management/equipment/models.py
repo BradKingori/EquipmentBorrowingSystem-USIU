@@ -24,6 +24,7 @@ class CustomUser(AbstractUser):  # Ensure this is inside `equipment/models.py`
         return f"{self.fullname} ({self.role})"
 
 class Equipment(models.Model):
+    #equipment_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=200)
     brand = models.CharField(max_length=200)
     serial_number = models.CharField(max_length=50, unique= True)
@@ -38,8 +39,16 @@ class Equipment(models.Model):
         return f"({self.name}{self.brand})"
 
 class BorrowRequest(models.Model):
+    """
+    STATUS_CHOICES = [
+        ("pending", "Pending"),
+        ("approved", "Approved"),
+        ("denied", "Denied"),
+    ] """
+
     student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'role': 'student'})
     equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
+    #status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="pending")
     lecturer_approved = models.BooleanField(default=  False)
     hod_approved = models.BooleanField(default= False)
     tech_approved =  models.BooleanField(default=False)

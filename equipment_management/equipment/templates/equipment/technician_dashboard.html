@@ -1,9 +1,52 @@
-<h2>Pending Technician Approvals</h2>
-{% for request in requests %}
-    <p>{{ request.student.user.username }} requested {{ request.equipment.name }}</p>
-    <form method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="request_id" value="{{ request.id }}">
-        <button type="submit">Approve</button>
-    </form>
-{% endfor %}
+<!--Should have a list of all equipment, be able to modify equipments and approve borrow requests-->
+
+<!DOCTYPE html>
+<html lang="en">
+    
+    <body>
+        {% block pagecontent %}
+        
+        <section class="page-section about-heading cta">
+            <div class="container"> 
+                <div class="about-heading-content">
+                    <div class="row">
+                      {% for equipment in equipments %}
+
+                        <div class="col-xl-3 col-lg-3 mt-5">
+                            <div class="card w-auto h-100">
+                                  <p class="">{{equipment.name}}</p>
+                                  <p class="">{{equipment.brand}}</p>
+                                  <p class="">{{equipment.serial_number}}</p>
+                                  <p class="">Available: {{equipment.available}}</p>
+
+                                </div>
+                              </div>
+                        
+
+                       {%endfor %}  
+                       </div>           
+                </div>
+
+                
+                <h2>Pending Technician Approvals</h2>
+                {% for request in requests %}
+                <p>{{ request.student.username }} requested {{ request.equipment.name }}</p>
+                <form method="POST" action="{% url 'approve_request' request.id %}">
+                    {% csrf_token %}
+                    <!--<input name="request_id" value="{{ request.id }}"> -->
+                    <button type="submit">Approve</button>
+                </form>
+            {% empty %}
+                <p>No pending approvals.</p>
+            {% endfor %}
+
+            </div>
+        </section>
+                 
+
+       {% endblock %}
+
+    </body>
+</html>
+
+       

@@ -120,20 +120,23 @@ def redirect_dashboard(request):
 @allowed_users(allowed_roles=['lecturer'])
 def lecturer_dashboard(request):
     requests = BorrowRequest.objects.filter(lecturer_approved=False)
-    return render(request, 'equipment/lecturer_dashboard.html', {'requests': requests})
+    context = {'requests': requests}
+    return render(request, 'equipment/lecturer_dashboard.html', context)
 
 @login_required
 @allowed_users(allowed_roles=['hod'])
 def hod_dashboard(request):
-    requests = BorrowRequest.objects.filter(lecturer_approved=True, hod_approved=False)
-    return render(request, 'equipment/hod_dashboard.html', {'requests': requests})
+    requests = BorrowRequest.objects.filter(hod_approved=False)
+    context = {'requests': requests}
+    return render(request, 'equipment/hod_dashboard.html', context)
 
 @login_required
 @allowed_users(allowed_roles=['technician'])
 def technician_dashboard(request):
     equipments = Equipment.objects.all()
-    requests = BorrowRequest.objects.filter(lecturer_approved=True, hod_approved=True, tech_approved=True)
-    return render(request, "equipment/technician_dashboard.html", {"equipment": equipments, "requests": requests})
+    requests = BorrowRequest.objects.filter(tech_approved=False)
+    context = {"equipment": equipments, "requests": requests}
+    return render(request, "equipment/technician_dashboard.html", context)
 
 """
 
@@ -170,29 +173,54 @@ def technician_dashboard(request):
 @login_required
 @allowed_users(allowed_roles=['student'])
 def student_dashboard(request):
-    equipment_list = Equipment.objects.filter(available= True)
+    equipments = Equipment.objects.filter(available= True)
     if request.method == "POST":
         equipment_id = request.POST.get("equipment_id")
         equipment = Equipment.objects.get(id=equipment_id)
-        student = CustomUser.objects.get(id=request.user.id)
-        BorrowRequest.objects.create(student = student,equipment=equipment)
+        #equipment = get_object_or_404(Equipment, id=equipment_id)
+        #student = CustomUser.objects.get(id=request.user.id)
+        student = request.user
+        BorrowRequest.objects.create(student = student, equipment=equipment)
+        """
+        if equipment.available:
+            if not BorrowRequest.objects.filter(student=student, equipment=equipment).exists():
+                BorrowRequest.objects.create(student=student, equipment=equipment)
+        
+        
+        from datetime import timedelta
+        from datetime import timedelta
+        from django.utils.timezone import now
+
+        time_limit = now() - timedelta(days=7)  # Example: 7-day restriction
+
+        existing_request = BorrowRequest.objects.filter(
+            student=student, 
+            equipment=equipment,
+            created_at__gte=time_limit  # Ensures request is older than 7 days
+        ).exclude(status="denied").exists()
+
+        """
         return redirect("student_dashboard")
     
-    #STUDENT CAN CREATE BORROW REQUEST, MAYBE PICK SPECIFIC LECTURER TO APPROVE 
-    return render(request, "equipment/student_dashboard.html", {"equipment_list": equipment_list})
+    context={"equipments": equipments}
+    return render(request, "equipment/student_dashboard.html", context)
 
 @permission_required('equipment.approve_borrowrequest', raise_exception=True)
 def approve_request(request, request_id):
-    borrow_request = BorrowRequest.objects.get(id=request_id)
+    if request.method == "POST":
+        #req_id = request.POST.get("request_id")
+        borrow_request = BorrowRequest.objects.get(id=request_id)
 
-    if request.user.groups.filter(name="lecturer").exists():
-        borrow_request.lecturer_approved = True
-    elif request.user.groups.filter(name="hod").exists():
-        borrow_request.hod_approved = True
-    elif request.user.groups.filter(name="technician").exists():
-        borrow_request.tech_approved = True
+        #borrow_request = get_object_or_404(BorrowRequest, id=req_id)
 
-    borrow_request.save()
+        if request.user.groups.filter(name="lecturer").exists():
+            borrow_request.lecturer_approved = True
+        elif request.user.groups.filter(name="hod").exists():
+            borrow_request.hod_approved = True
+        elif request.user.groups.filter(name="technician").exists():
+            borrow_request.tech_approved = True
+
+        borrow_request.save()
     return redirect(request.user.groups.first().name + '_dashboard')
 
 def signout(request):

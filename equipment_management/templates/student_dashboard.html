@@ -25,7 +25,7 @@
                 </div>
 
 
-                <form method="post" action="{% url 'student_dashboard' %}">
+                <form method="post" action="{% url 'student' %}">
                 {% csrf_token %}
                     <select name="equipment_id">
                         {% for equipment in equipments %}
