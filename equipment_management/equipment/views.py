@@ -134,41 +134,26 @@ def hod_dashboard(request):
 @allowed_users(allowed_roles=['technician'])
 def technician_dashboard(request):
     equipments = Equipment.objects.all()
+    borrow_requests = BorrowRequest.objects.all()
     requests = BorrowRequest.objects.filter(tech_approved=False)
-    context = {"equipment": equipments, "requests": requests}
-    return render(request, "equipment/technician_dashboard.html", context)
-
-"""
-
-
-@login_required
-@permission_required('equipment.modify_equipment', raise_exception=True)
-def technician_dashboard(request):
-    if request.user.role != 'technician':
-        messages.error(request, "You do not have access to this page.")
-        return redirect('redirect_dashboard')
-
-
-    requests = BorrowRequest.objects.filter(lecturer_approved=True, hod_approved=True, tech_approved=False)
-    #Full page that has a list of equipments and borrow requests, with approved and not approved requests
-    # 
-    equipments = Equipment.objects.all() #get all equipments 
-    
-    #Perhaps a button where a technician can change the status of an equipment from available to not available, add or delete equipment
-    
-    equipment_id = request.POST.get("equipment_id")
-    equipment = Equipment.objects.get(id=equipment_id)
-        
+   
     if request.method == "POST":
-        equipment.name = request.POST['name']
-        equipment.brand = request.POST['brand']
-        equipment.available = request.POST['available'] == 'on'
+        equipment_serial = request.POST.get("serial_number")  # Get ID for editing, if available
+        if equipment_serial:
+            equipment = Equipment.objects.get(serial_number=equipment_serial)  # Retrieve existing equipment
+        else:
+            equipment = Equipment()  # Create new
+
+        # Assign form data
+        equipment.name = request.POST.get('name', '')
+        equipment.brand = request.POST.get('brand', '')
+        equipment.serial_number = request.POST.get('serial_number', '')
+        equipment.available = request.POST.get('available') == 'on'
         equipment.save()
         return redirect('technician_dashboard')
-    return render(request, "equipment/technician_dashboard.html", {"requests": requests, "equipment": equipments})
-
-
-"""
+        
+    context = {"equipments": equipments, "requests": requests, "borrow_requests":borrow_requests}
+    return render(request, "equipment/technician_dashboard.html", context)
 
 @login_required
 @allowed_users(allowed_roles=['student'])
