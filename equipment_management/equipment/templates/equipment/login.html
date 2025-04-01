@@ -1,27 +1,45 @@
-{% block body %}
-<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-    <div class="shadow p-4 bg-body rounded text-black w-100" style="max-width: 400px;">
-        <h1 class="text-center p-3">Sign In</h1>
-        <form  method = 'POST' class = "row g-3" action="/login/">
+{% extends 'equipment/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  {% block pagecontent %}
+
+
+<section class="sample-page">
+<div class="container"  data-aos="fade-up" data-aos-delay="100">
+    <div class="row"> 
+        <div class="col-lg-12 col-md-12 p-5">
+            <div class="card shadow">
+        <form  method = 'POST' class = "p-5" action="/login/">
                     
             {% csrf_token %} 
-            <div class="">
-                <label for="email" class="">Email</label>
-                <input required type="email" class="" id="email" name="email" autocomplete="email">
+            <div class="col-lg-12 col-md-10">
+                <label for="email" class="form-label">Email</label>
+                <input required type="email" class="form-control" id="email" name="email" autocomplete="email">
             </div>
-            <div class="">
-                <label for="password" class="">Password</label>
+            <div class="col-lg-12 col-md-10">
+                <label for="password" class="form-label">Password</label>
                 <input required type="password" class="form-control" id="password" name="password" autocomplete="current-password">
             </div>
 
-            <div class="">
-                <input type="submit" class="" value="Login">
+            <div class="col-12 text-center p-3">
+                <input type="submit" class="btn btn-outline-primary btn-lg1" value="Login">
                 </div>
     
         </form> 
-            <p> Don't have an account?<a href = '/signup/'> Sign up </a> </p>  
+            <p class="p-3"> Don't have an account?<a href = '/signup/'> Sign up </a> </p>  
 
     </div>
 </div>
 
+    </div>
+</div>
+</div>
+</section>
+
 {% endblock %}
+
+</body>
+</html>

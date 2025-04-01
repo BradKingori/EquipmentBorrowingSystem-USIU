@@ -1,9 +1,0 @@
-Add registration, login, password-reset, email-verification, files
-
-
-<!-- {% extends 'equipment/base.html' %}
- {%load static %}  ->when static file (CSS, JavaScript, images, etc are added)
-
-
-{% block pagecontent %}
--->

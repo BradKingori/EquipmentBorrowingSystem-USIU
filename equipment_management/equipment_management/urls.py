@@ -22,12 +22,14 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', ev.signup, name='signup'),
+    path('', ev.redirect_dashboard, name='redirect_dashboard'),
+    path('dashboard/', ev.redirect_dashboard, name='dashboard'),
+    path('equipments/', ev.equipments, name='equipments'),
+    path('borrow-requests/', ev.borrowRequests, name='borrow-requests'),
     path("student/",ev.student_dashboard, name="student_dashboard" ),
     path("lecturer/",ev.lecturer_dashboard, name= "lecturer_dashboard"),
     path("hod/",ev.hod_dashboard, name= "hod_dashboard"),
     path("technician/", ev.technician_dashboard, name="technician_dashboard"),
-    path('dashboard/', ev.redirect_dashboard, name='redirect_dashboard'),
     path('signup/', ev.signup, name='signup'),
     path('login/', ev.login_view, name='login'),
     #path('accounts/', include("django.contrib.auth.urls")),

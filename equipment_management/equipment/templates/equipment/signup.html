@@ -1,26 +1,38 @@
-{% block body %}
-<div class="d-flex justify-content-center align-items-center min-vh-100 bg-white">
-    <div class="shadow p-4 bg-body rounded text-black w-100" style="max-width: 400px;">
-        <h1 class="">Sign Up</h1>
-        <form  method = 'POST' class = "" action="/signup/">
+{% extends 'equipment/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  {% block pagecontent %}
+
+
+<section class="sample-page">
+<div class="container"  data-aos="fade-up" data-aos-delay="100">
+    <div class="row"> 
+
+        <div class="col-lg-12 col-md-12 mx-auto bg-light p-5">
+            <div class="card shadow">
+      
+        <form  method = 'POST' class = "p-5" action="/signup/">
                     
             {% csrf_token %} 
-            <div class="">
+            <div class="col-lg-12 col-md-12">
                 <label for="fullname" class="form-label">Full Name</label>
                 <input required type="text" class="form-control" id="fullname" name="fullname" autocomplete="given-name">
             </div>
 
-            <div class="">
+            <div class="col-lg-12 col-md-12">
                 <label for="email" class="form-label">Email address</label>
                 <input required type="email" class="form-control" id="email" name="email" autocomplete="email">
             </div>
 
-            <div class="">
+            <div class="col-lg-12 col-md-12">
                 <label for="userId" class="form-label">ID</label>
                 <input required type="number" class="form-control" id="userId" name="userId" autocomplete="off">
             </div> 
             
-            <div class="">
+            <div class="col-lg-12 col-md-12">
                 <label for="role" class="form-label">Role</label>
                 <select class="form-select" name="role" autocomplete="off">
                     <option value="student" name="student" selected>Student</option>
@@ -31,25 +43,27 @@
                 
             </div>
 
-            <div class="">
+            <div class="col-lg-12 col-md-12">
                 <label for="password" class="form-label">Password</label>
                 <input required type="password" class="form-control" id="password" name="password" autocomplete="new-password">
             </div>
-            <div class="">
+            <div class="col-lg-12 col-md-12">
                 <label for="password2" class="form-label">Confirm Password</label>
                 <input required type="password" class="form-control" id="pass2" name="pass2" autocomplete="current-password">
             </div>    
             
-            <div class="col-12 text-center my-5">
+            <div class="col-12 text-center p-3">
                 <input type="submit" class="btn btn-outline-primary btn-lg1" value="Sign up!">
                                            
             </div>
         </form> 
-        <div class="text-center mt-4">
-            <label class="form-label fs-5">Already have an account?</label>
-            <br>
-            <a href="{% url 'login' %}" class="btn btn-outline-primary w-100 mt-2">Sign In</a>
-        </div>
+        <p class="p-3"> Do you have an account?<a href = '/login/'> Sign in </a> </p>  
     </div>
 </div>
+    </div>
+</div>
+</section>
+
 {% endblock %}
+</body>
+</html>

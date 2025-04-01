@@ -1,93 +1,20 @@
-<!--The Equipments and borrow requests can be displayed in table form, where each row is an equipment/ borrow-request -->
-
+{% extends 'equipment/base.html' %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <body>
-{% block pagecontent %}
-
-    <section class="section profile">
-        <div class="card-body pt-3">
-        
-            <div class="tab-content pt-2">
-
-            <div class="tab-pane fade show active profile-overview" id="equipments">
-                <h5 class="card-title">Equipments</h5>
-
-                {% for equipment in equipments %}
-
-                    <div class="col-xl-3 col-lg-3 mt-5">
-                        <div class="card w-auto h-100">
-                                <p class="">{{equipment.name}}</p>
-                                <p class="">{{equipment.brand}}</p>
-                                <p class="">{{equipment.serial_number}}</p>
-                                <p class="">Available: {{equipment.available}}</p>
-
-                            </div>
-                            </div>
-                    
-
-                    {%endfor %}  
-            </div>
-
-            
-
-            <div class="tab-pane fade profile-edit pt-3" id="add-equipments">
-
-                <!-- add-equipments Form -->
-                <form method="post" action="{% url 'technician_dashboard' %}">
-
-                {% csrf_token %}
-
-                <div class="">
-                    <label for="name" class="">Equipment name</label>
-                    <input required type="text" class="" id="name" name="name" autocomplete="off">
-                </div>
-                <div class="">
-                    <label for="brand" class="">Equipment brand</label>
-                    <input required type="text" class="" id="brand" name="brand" autocomplete="off">
-                </div>
-
-                <div class="">
-                    <label for="serial_number" class="">Equipment serial number</label>
-                    <input required type="text" class="" id="serial_number" name="serial_number" autocomplete="off">
-                </div>
-                <div class="">
-                    <label for="available" class="">Available</label>
-                    <input required type= "checkbox" class="" id="available" name="available" autocomplete="off">
-                </div>
-                <div class="">
-                    <input type="submit" class="" value="Add equipment">
-                </div>
-        
-                </form><!-- add-equipments Form -->
-
-            </div>
+  {% block pagecontent %}
 
 
-            <div class="tab-pane fade show active profile-overview" id="borrow-requests">
-                <h5 class="card-title">Requests</h5>
+<section class="sample-page">
+<div class="container"  data-aos="fade-up" data-aos-delay="100">
 
-                {% for borrow_request in borrow_requests %}
+    <div class="row"> 
+        <div class="col-lg-12 col-md-12 mx-auto bg-light p-5">
+            <div class="card shadow p-3">
 
-                        <div class="col-xl-3 col-lg-3 mt-5">
-                            <div class="card w-auto h-100">
-                                <p class="">Student name: {{borrow_request.student.fullname}}</p>
-                                <p class="">Equipment borrowed: {{borrow_request.equipment.name}}</p>
-                                <p class="">Date: {{borrow_request.requested_at}}</p>
-                                <p class="">Lecturer approval? {{borrow_request.lecturer_approved}}</p>
-                                <p class="">HOD approval? {{borrow_request.hod_approved}}</p>
-                                <p class="">Technician approval?{{borrow_request.tech_approved}}</p>
-                                <p class="">Fully approved: {{borrow_request.fully_approved}}</p>
 
-                                </div>
-                            </div>
-                        
-
-                        {%endfor %}  
-                </div>
-
-                <div class="tab-pane fade show active profile-overview" id="pending-approvals">
                 <h2>Pending Technician Approvals</h2>
                 {% for request in requests %}
                 <p>{{ request.student.username }} requested {{ request.equipment.name }}</p>
@@ -96,15 +23,50 @@
                     <!--<input name="request_id" value="{{ request.id }}"> -->
                     <button type="submit">Approve</button>
                 </form>
-            {% empty %}
-                <p>No pending approvals.</p>
-            {% endfor %}
+                {% empty %}
+                    <p>No pending approvals.</p>
+                {% endfor %}
 
+            </div>
+        </div>
+    </div>
 
+        <div class="row"> 
+        <div class="col-lg-12 col-md-12 mx-auto bg-light p-5">
+            <div class="card shadow mb-4">
 
-                </div>            
+                <!-- add-equipments Form -->
+                <form method="post" class="p-5"   action="{% url 'technician_dashboard' %}">
 
-              </div><!-- End Bordered Tabs -->
+                {% csrf_token %}
+
+                <div class="col-lg-12 col-md-12">
+                    <label for="name" class="form-label">Equipment name</label>
+                    <input required type="text" class="form-control" id="name" name="name" autocomplete="off">
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <label for="brand" class="form-label">Equipment brand</label>
+                    <input required type="text" class="form-control" id="brand" name="brand" autocomplete="off">
+                </div>
+
+                <div class="col-lg-12 col-md-12">
+                    <label for="serial_number" class="form-label">Equipment serial number</label>
+                    <input required type="text" class="form-control" id="serial_number" name="serial_number" autocomplete="off">
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <label for="available" class="form-label">Available</label>
+                    <input required type= "checkbox" class="" id="available" name="available" autocomplete="off">
+                </div>
+                <div class="col-12 text-center p-3">
+                    <input type="submit" class="btn btn-outline-primary btn-lg1" value="Add equipment">
+                </div>
+        
+                </form><!-- add-equipments Form -->
+
+            </div>
+        </div>
+            </div>
+
       </div>
     </section>
 

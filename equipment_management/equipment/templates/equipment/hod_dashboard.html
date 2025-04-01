@@ -1,12 +1,17 @@
+{% extends 'equipment/base.html' %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    
-    <body>
-        {% block body%}
-        
-        <section class="page-section about-heading cta">
-            <div class="container"> 
 
+<body>
+  {% block pagecontent %}
+
+
+<section class="sample-page">
+<div class="container"  data-aos="fade-up" data-aos-delay="100">
+    <div class="row"> 
+        <div class="col-lg-12 col-md-12 mx-auto bg-light p-5">
+            <div class="card shadow mb-4">
                 <h2>Pending HOD Approvals</h2>
                 {% for request in requests %}
                     <p>{{ request.student.username }} requested {{ request.equipment.name }}</p>
@@ -19,6 +24,10 @@
                     <p>No pending approvals.</p>
                 {% endfor %}
             </div>
+        </div>
+    </div>
+</div>
+
         </section>
         {% endblock %}
     </body>

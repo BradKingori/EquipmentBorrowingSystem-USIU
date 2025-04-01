@@ -20,6 +20,14 @@ from equipment_management import settings
 from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth.decorators import user_passes_test
 
+
+def dashboard(request):
+    return render(request, 'equipment/dashboard.html')
+
+
+def index(request):
+    return render(request, 'equipment/base.html')
+
 def signup(request):
     if request.method =="POST":
         fullname = request.POST['fullname'] 
@@ -133,8 +141,6 @@ def hod_dashboard(request):
 @login_required
 @allowed_users(allowed_roles=['technician'])
 def technician_dashboard(request):
-    equipments = Equipment.objects.all()
-    borrow_requests = BorrowRequest.objects.all()
     requests = BorrowRequest.objects.filter(tech_approved=False)
    
     if request.method == "POST":
@@ -152,13 +158,13 @@ def technician_dashboard(request):
         equipment.save()
         return redirect('technician_dashboard')
         
-    context = {"equipments": equipments, "requests": requests, "borrow_requests":borrow_requests}
+    context = {"requests": requests}
     return render(request, "equipment/technician_dashboard.html", context)
 
 @login_required
 @allowed_users(allowed_roles=['student'])
 def student_dashboard(request):
-    equipments = Equipment.objects.filter(available= True)
+    equipments = Equipment.objects.filter(available = True)
     if request.method == "POST":
         equipment_id = request.POST.get("equipment_id")
         equipment = Equipment.objects.get(id=equipment_id)
@@ -166,6 +172,8 @@ def student_dashboard(request):
         #student = CustomUser.objects.get(id=request.user.id)
         student = request.user
         BorrowRequest.objects.create(student = student, equipment=equipment)
+
+
         """
         if equipment.available:
             if not BorrowRequest.objects.filter(student=student, equipment=equipment).exists():
@@ -185,9 +193,7 @@ def student_dashboard(request):
         ).exclude(status="denied").exists()
 
         """
-        return redirect("student_dashboard")
-    
-    context={"equipments": equipments}
+    context = {"equipments": equipments}
     return render(request, "equipment/student_dashboard.html", context)
 
 @permission_required('equipment.approve_borrowrequest', raise_exception=True)
@@ -208,10 +214,28 @@ def approve_request(request, request_id):
         borrow_request.save()
     return redirect(request.user.groups.first().name + '_dashboard')
 
+
+def borrowRequests(request):
+    borrow_requests = BorrowRequest.objects.all()
+
+    if request.user.role == "student":
+        student=request.user
+        borrow_requests = BorrowRequest.objects.filter(student=student)
+
+    context = {'borrow_requests': borrow_requests}
+    return render(request, 'equipment/borrow_requests.html', context)
+
+
+def equipments(request):
+    equipments = Equipment.objects.all()
+    context = {'equipments': equipments}
+    return render(request, 'equipment/equipment.html', context)
+
+
 def signout(request):
       logout(request)
       messages.success(request, 'Logout successfully')
-      return redirect('signup')
+      return redirect('login')
 
 def activate(request, uidb64, token):
     try:
