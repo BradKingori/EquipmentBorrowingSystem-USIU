@@ -113,6 +113,9 @@ def login_view(request):
 
 
 def redirect_dashboard(request):
+    if not request.user.is_authenticated:  # Check if the user is logged in
+        return redirect('login')  # Redirect to login if anonymous
+    
     if request.user.role == 'student':
         return redirect('student_dashboard')
     elif request.user.role == 'lecturer':
@@ -121,8 +124,8 @@ def redirect_dashboard(request):
         return redirect('hod_dashboard')
     elif request.user.role == 'technician':
         return redirect('technician_dashboard')
-    return redirect('login')
-
+    
+    return redirect('login')  
 
 @login_required(login_url='redirect_dashboard')
 @allowed_users(allowed_roles=['lecturer'])
