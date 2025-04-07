@@ -1,0 +1,78 @@
+{% extends 'equipment/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  {% block pagecontent %}
+
+
+<section class="sample-page">
+<div class="container"  data-aos="fade-up" data-aos-delay="100">
+
+    <div class="row"> 
+        <div class="col-lg-12 col-md-12 mx-auto bg-light p-5">
+            <div class="card shadow p-3">
+
+
+                <h2>Pending Technician Approvals</h2>
+                {% for request in requests %}
+                <p>{{ request.student.username }} requested {{ request.equipment.name }}</p>
+                <form method="POST" action="{% url 'approve_request' request.id %}">
+                    {% csrf_token %}
+                    <!--<input name="request_id" value="{{ request.id }}"> -->
+                    <button type="submit">Approve</button>
+                </form>
+                {% empty %}
+                    <p>No pending approvals.</p>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+        <div class="row"> 
+        <div class="col-lg-12 col-md-12 mx-auto bg-light p-5">
+            <div class="card shadow mb-4">
+
+                <!-- add-equipments Form -->
+                <form method="post" class="p-5"   action="{% url 'technician_dashboard' %}">
+
+                {% csrf_token %}
+
+                <div class="col-lg-12 col-md-12">
+                    <label for="name" class="form-label">Equipment name</label>
+                    <input required type="text" class="form-control" id="name" name="name" autocomplete="off">
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <label for="brand" class="form-label">Equipment brand</label>
+                    <input required type="text" class="form-control" id="brand" name="brand" autocomplete="off">
+                </div>
+
+                <div class="col-lg-12 col-md-12">
+                    <label for="serial_number" class="form-label">Equipment serial number</label>
+                    <input required type="text" class="form-control" id="serial_number" name="serial_number" autocomplete="off">
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <label for="available" class="form-label">Available</label>
+                    <input required type= "checkbox" class="" id="available" name="available" autocomplete="off">
+                </div>
+                <div class="col-12 text-center p-3">
+                    <input type="submit" class="btn btn-outline-primary btn-lg1" value="Add equipment">
+                </div>
+        
+                </form><!-- add-equipments Form -->
+
+            </div>
+        </div>
+            </div>
+
+      </div>
+    </section>
+
+
+  {% endblock %}
+
+</body>
+</html>
+

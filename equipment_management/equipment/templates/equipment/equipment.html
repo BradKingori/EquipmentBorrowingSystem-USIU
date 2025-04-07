@@ -1,0 +1,64 @@
+{% extends 'equipment/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  {% block pagecontent %}
+
+<section class="sample-page">
+    <div class="container"  data-aos="fade-up" data-aos-delay="100">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 mx-auto bg-light p-5">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Equipments</h6>
+                    </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Brand</th>
+                                    <th>Serial Number</th>
+                                    <th>available</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                            {% for equipment in equipments %}
+                            <tbody>
+                                <tr>
+                                    <td>{{equipment.name}}</td>
+                                    <td>{{equipment.brand}}</td>
+                                    <td>{{equipment.serial_number}}</td>
+                                    <td>{{equipment.available}}</td>
+                                </tr>
+                            </tbody>
+
+                            {% endfor %} 
+
+                        </table>
+
+                    </div>
+
+                    </div> 
+            </div>
+            
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+</body>
+</html>

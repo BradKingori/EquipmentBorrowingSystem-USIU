@@ -1,0 +1,66 @@
+{% extends 'equipment/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  {% block pagecontent %}
+
+
+<section class="sample-page">
+<div class="container"  data-aos="fade-up" data-aos-delay="100">
+    <div class="row"> 
+        <div class="col-lg-12 col-md-12 mx-auto bg-light p-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Borrow Requests</h6>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Equipment</th>
+                                    <th>Date</th>
+                                    <th>Lecturer approval?</th>
+                                    <th>HOD approval?</th>
+                                    <th>Technician approval?</th>
+                                    <th>Fully approved</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+
+                                </tr>
+                            </tfoot>
+                            {% for borrow_request in borrow_requests %}
+                            <tbody>
+                                <tr>
+                                    <td>{{borrow_request.student.fullname}}</td>
+                                    <td>{{borrow_request.equipment.name}}</td>
+                                    <td>{{borrow_request.requested_at}}</td>
+                                    <td>{{borrow_request.lecturer_approved}}</td>
+                                    <td>{{borrow_request.hod_approved}}</td>
+                                    <td>{{borrow_request.tech_approved}}</td>
+                                    <td>{{borrow_request.fully_approved}}</td>
+                                </tr>
+                            </tbody>
+                            {%endfor %}  
+
+                        </table>
+
+                    </div>
+                </div>                  
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+</body>
+</html>
