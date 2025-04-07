@@ -1,0 +1,57 @@
+{% extends 'equipment/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  {% block pagecontent %}
+
+<section class="sample-page">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 mx-auto bg-light p-5">
+                <div class="card shadow mb-4" style="background-color: #4E73DF; border-radius: 10px;">
+                    <div class="card-header py-3" style="background-color: #2e59d9; color: #fff;">
+                        <h6 class="m-0 font-weight-bold">Available Equipments</h6>
+                    </div>
+                <div class="card-body" style="background-color: #f8f9fc;">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr style="background-color: rgba(255,255,255,0.2); text-align: left;">
+                                    <th>Name</th>
+                                    <th>Brand</th>
+                                    <th>Serial Number</th>
+                                    <th>Available</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for equipment in equipments %}
+                                <tr style="background-color: rgba(255,255,255,0.05);">
+                                    <td>{{equipment.name}}</td>
+                                    <td>{{equipment.brand}}</td>
+                                    <td>{{equipment.serial_number}}</td>
+                                    <td>{{equipment.available}}</td>
+                                    <td>
+                                        <form method="post" action="{% url 'student_dashboard' %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="equipment_id" value="{{ equipment.id }}">
+                                            <button type="submit" class="btn btn-success">Request Equipment</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %} 
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+</body>
+</html>

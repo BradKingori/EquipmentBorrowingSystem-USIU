@@ -1,0 +1,61 @@
+{% extends 'equipment/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  {% block pagecontent %}
+
+<section class="sample-page">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 mx-auto bg-light p-5">
+                <div class="card shadow mb-4">
+                    <h2>Pending HOD Approvals</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr style="background-color: rgba(255,255,255,0.2); text-align: left;">
+                                    <th>Student</th>
+                                    <th>Equipment</th>
+                                    <th>Serial Number</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for request in requests %}
+                                <tr style="background-color: rgba(255,255,255,0.05);">
+                                    <td>{{ request.student.username }}</td>
+                                    <td>{{ request.equipment.name }}</td>
+                                    <td>{{ request.equipment.serial_number }}</td>
+                                    <td>{{ request.hod_approved|yesno:"Approved,Pending" }}</td>
+                                    <td>
+                                        <form method="POST" action="{% url 'approve_request' request.id %}" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                        </form>
+                                        <form method="POST" action="{% url 'reject_request' request.id %}" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="5">No pending approvals.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+</body>
+</html>
