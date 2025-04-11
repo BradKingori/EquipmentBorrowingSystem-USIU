@@ -1,0 +1,110 @@
+{% extends 'equipment/base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  {% block pagecontent %}
+
+<section class="sample-page">
+<div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <div class="row"> 
+        <div class="col-lg-12 col-md-12 mx-auto bg-light p-5">
+            <div class="card shadow p-3">
+
+                <h2>Pending Technician Approvals</h2>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Equipment</th>
+                            <th>Serial Number</th>
+                            <th>Status</th>
+                            <th>Condition</th> <!-- New column for condition -->
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for request in requests %}
+                        <tr style="background-color: rgba(255, 255, 255, 0.05);">
+                            <td>{{ request.student.username }}</td>
+                            <td>{{ request.equipment.name }}</td>
+                            <td>{{ request.equipment.serial_number }}</td>
+                            <td>{{ request.hod_approved|yesno:"Approved,Pending" }}</td>
+                            <td>{{ request.equipment.condition|capfirst }}</td> <!-- Display equipment condition -->
+                            <td>
+                                <form method="POST" action="{% url 'approve_request' request.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                </form>
+                                <form method="POST" action="{% url 'reject_request' request.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6">No pending approvals.</td> <!-- Adjusted colspan -->
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Equipment Form Section -->
+
+    <div class="row"> 
+        <div class="col-lg-12 col-md-12 mx-auto bg-light p-5">
+            <div class="card shadow mb-4">
+                <form method="post" class="p-5" action="{% url 'technician_dashboard' %}">
+                    {% csrf_token %}
+
+                    <div class="col-lg-12 col-md-12">
+                        <label for="name" class="form-label">Equipment name</label>
+                        <input required type="text" class="form-control" id="name" name="name" autocomplete="off">
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <label for="brand" class="form-label">Equipment brand</label>
+                        <input required type="text" class="form-control" id="brand" name="brand" autocomplete="off">
+                    </div>
+
+                    <div class="col-lg-12 col-md-12">
+                        <label for="serial_number" class="form-label">Equipment serial number</label>
+                        <input required type="text" class="form-control" id="serial_number" name="serial_number" autocomplete="off">
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <label for="available" class="form-label">Available</label>
+                        <input required type="checkbox" class="" id="available" name="available" autocomplete="off">
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <label for="condition" class="form-label">Condition</label>
+                        <select class="form-control" id="condition" name="condition" required>
+                            <option value="new">New</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                            <option value="poor">Poor</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 text-center p-3">
+                        <input type="submit" class="btn btn-outline-primary btn-lg1" value="Add equipment">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+</section>
+
+{% endblock %}
+
+</body>
+</html>
